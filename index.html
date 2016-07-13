@@ -12,7 +12,7 @@
 
     <link rel="stylesheet" type="text/css" href="css/style.css" media="screen" />
 
-    <title>private sequence-maker</title>
+    <title>sequence-maker</title>
   </head>
 
   <body>
@@ -20,13 +20,11 @@
       <table align="center" class="inner">
         <tr>
           <td>
-          <h3>Edit me below</h3>
+          <h3>Seaquence maker</h3>
           <div class="editor-wrapper">
-          <div class="editor">Andrew->China: Says Hello
-Note right of China: China thinks\nabout it
-China-->Andrew: How are you?
-Andrew->>China: I am good thanks!</div>
+            <div class="editor"><div id="markdown"></div></div>
           </div>
+          ※If you wanna load your file, change URL parameter.<br/>
           <a href="#" class="download">Download as SVG</a>
           </td>
           <td class="diagram">This should be a diagram! If you don't see it you need Javascript enabled</td>
@@ -37,14 +35,14 @@ Andrew->>China: I am good thanks!</div>
     <footer>
       <hr />
       <div class="inner">
-        based on <a href="https://bramp.github.io/js-sequence-diagrams/" target="_blank">js-sequence-diagrams</a>
+        based on <a href="https://bramp.github.io/js-sequence-diagrams/" target="_blank">js-sequence-diagrams</a><br/>
+        thanks to <a href="https://github.com/ajaxorg/ace-builds" target="_blank">ace.js</a>
       </div>
     </footer>
 
     <script src="js/jquery.min.js"></script>
     <!-- Needed for the text editor -->
-    <!--<script src="js/src-min-noconflict/ace.js" type="text/javascript" charset="utf-8"></script-->
-        <script src="https://d1n0x3qji82z53.cloudfront.net/src-min-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/src-min-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
 
     <script src="js/underscore-min.js"></script>
     <script src="js/raphael-min.js"></script>
@@ -115,8 +113,19 @@ Andrew->>China: I am good thanks!</div>
         }
       }
 
+      // main
       $(document).ready(function() {
-        setup_editor($('#main'));
+        var target = $("#markdown");
+
+        $.ajax({
+          url: './files/' + location.search.substring(1).split('=')[1],
+        }).success(function(data){
+          target.append(data);
+          setup_editor($('#main'));
+        }).error(function(data){
+          target.append('Title: Edit me');
+          setup_editor($('#main'));
+        })
       });
     </script>
   </body>
